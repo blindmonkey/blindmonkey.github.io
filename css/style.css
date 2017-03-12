@@ -1,0 +1,47 @@
+body {
+    margin-left: 32px;
+    margin-right: 32px;
+}
+
+.inline {
+    display: inline-block;
+}
+
+nav {
+    width: 140pt;
+    float: left;
+}
+
+nav ul li {
+    margin-bottom: 8px;
+}
+
+div.content {
+    margin-left: 170pt;
+    max-width: 750px;
+}
+
+.experience-item {
+    border-left: 4px solid #90aec7;
+    border-radius: 4px;
+    padding-left: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-bottom: 16px;
+}
+
+.experience-item .company {
+    font-weight: bold;
+}
+
+.experience-item .location {
+    font-style: italic;
+}
+
+.experience-item ul {
+    margin-top: 4px;
+}
+
+.bold {
+    font-weight: bold;
+}
