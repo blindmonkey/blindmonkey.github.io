@@ -1,10 +1,50 @@
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 body {
     margin-left: 32px;
     margin-right: 32px;
+
+    -webkit-animation: fadein 2s ease-in; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 2s ease-in; /* Firefox < 16 */
+        -ms-animation: fadein 2s ease-in; /* Internet Explorer */
+         -o-animation: fadein 2s ease-in; /* Opera < 12.1 */
+            animation: fadein 2s ease-in;
 }
 
 .inline {
     display: inline-block;
+}
+
+.indented {
+    padding-left: 2em;
+    text-indent: -2em;
 }
 
 nav {
@@ -19,6 +59,10 @@ nav ul li {
 div.content {
     margin-left: 170pt;
     max-width: 750px;
+}
+
+div.content p {
+    margin-bottom: 10pt;
 }
 
 .experience-item {

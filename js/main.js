@@ -5,6 +5,8 @@ $(function() {
     location: 'San Francisco, CA',
     start: {month: 'April', year: 2016},
     end: null, //{month: 'April', year: 2017},
+    languages: ['JavaScript', 'Python'],
+    skills: ['SQLAlchemy', 'Flask', 'AngularJS', 'npm', 'Jenkins'],
     achievements: [
       'Defined and set priorities for the sales and operations team based on the tech roadmap.',
       'Set example of code style and testing as a culture, raising code coverage from 0% to 74%.',
@@ -20,6 +22,8 @@ $(function() {
     location: 'Cambridge, MA',
     start: {month: 'June', year: 2011},
     end: {month: 'April', year: 2016},
+    languages: ['Java', 'JavaScript', 'C/C++/C++14', 'Python'],
+    skills: ['Google Closure', 'Bazel', 'Guice', 'FlumeJava', 'GWT', 'SVG', 'OpenGL', 'HTML5 Canvas'],
     achievements: [
       'Cowrote a patent application for efficient proximity detection.',
       'Wrote an efficient implementation of the Bentley-Ottmann line-set intersection algorithm, while dealing with floating point precision issues.',
@@ -39,6 +43,8 @@ $(function() {
     location: 'Seattle, WA',
     start: {month: 'January', year: 2009},
     end: {month: 'June', year: 2009},
+    languages: ['Java', 'JavaScript', 'Perl'],
+    skills: ['Hibernate', 'Mechanical Turk'],
     achievements: [
       'Organized and developed a project to improve product classification using Amazon’s Mechanical Turk in Java using Hibernate.',
       'Organized and developed a project to help the sales team with locating websites to contact using the Mechanical Turk in Java.',
@@ -50,6 +56,8 @@ $(function() {
     location: 'Boston, MA',
     start: {month: 'September', year: 2007},
     end: {month: 'June', year: 2009},
+    languages: ['Python'],
+    skills: ['PyGame'],
     achievements: [
       'Architected and implemented a general widget system in Python for touchscreen-based devices, complete with momentum scrolling, transitions and animations to mimic the then-new iPhone interface, which included managing text rendering and touched upon line breaking and typesetting.',
       'Used our custom built widget system to create a smooth and beautiful interface for a touchscreen-based device meant to display relevant information in the back of a taxicab.',
@@ -61,6 +69,8 @@ $(function() {
     location: 'Southborough, MA',
     start: {month: 'January', year: 2008},
     end: {month: 'June', year: 2008},
+    languages: ['Java', 'C', 'Perl'],
+    skills: [],
     achievements: [
       'Wrote a Java application to parse a single text help file and produce and view a searchable and organized data set.',
       'Fixed bugs in the driver for large server racks in a monolithic C codebase.',
@@ -73,12 +83,13 @@ $(function() {
     location: 'Boston, MA',
     start: {month: 'June', year: 2010},
     end: {month: 'August', year: 2010},
+    languages: ['JavaScript', 'Java'],
+    skills: ['jQuery', 'SmartGWT'],
     achievements: [
       'Fixed a number of bugs and added features to an internal tool written in GWT.',
       'Ported a number of features on the website from the Prototype javascript framework to jQuery.'
     ]
   }];
-
   JOBS.sort(function(a, b) {
     if (a.end == null) return -1;
     if (b.end == null) return 1;
@@ -87,14 +98,34 @@ $(function() {
     return 0;
   })
 
+  var PROJECTS = [{
+    language: 'Java',
+    title: 'Scheme Interpreter',
+    description: ['For a school project, I wrote an interpreter for a version of the Scheme language as part of a text-based adventure game.'],
+    source: null
+  }, {
+    language: 'Haxe',
+    title: 'Tail Recursion Eliminating Macro',
+    description: ['For fun and my own self-satisfaction, I built a proof of concept for a Haxe macro that can take a tail-recursive function  and flatten it into a while loop form.'],
+    source: {title: 'coming soon', link: null}
+  }];
+
   var SergeyWebsiteViewModel = function() {
     var self = this;
     self.jobs = ko.observable(JOBS);
+    self.projects = ko.observable(PROJECTS);
 
     var pages = self.pages = {
       ABOUT: 'about',
       EXPERIENCE: 'experience',
       PROJECTS: 'projects'
+    };
+
+    self.generateMailLink = function() {
+      var g = 'g';
+      var last = 'rabkovsky';
+      var mail = 'mail';
+      return [mail, 'to:', g, last, '.s@', g, mail, '.com'].join('');
     };
 
     // Page navigation
