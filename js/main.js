@@ -2,11 +2,11 @@ $(function() {
   var JOBS = [{
     company: 'Shotput',
     title: 'VP of Engineering',
-    location: 'San Francisco, CA',
+    location: 'San Francisco, CA (remote)',
     start: {month: 'April', year: 2016},
     end: null, //{month: 'April', year: 2017},
     languages: ['JavaScript', 'Python'],
-    skills: ['SQLAlchemy', 'Flask', 'AngularJS', 'npm', 'Jenkins'],
+    skills: ['AWS', 'SQLAlchemy', 'Flask', 'AngularJS', 'npm', 'Jenkins'],
     achievements: [
       'Defined and set priorities for the sales and operations team based on the tech roadmap.',
       'Set example of code style and testing as a culture, raising code coverage from 0% to 74%.',
@@ -99,15 +99,24 @@ $(function() {
   })
 
   var PROJECTS = [{
-    language: 'Java',
-    title: 'Scheme Interpreter',
-    description: ['For a school project, I wrote an interpreter for a version of the Scheme language as part of a text-based adventure game.'],
-    source: null
-  }, {
     language: 'Haxe',
     title: 'Tail Recursion Eliminating Macro',
     description: ['For fun and my own self-satisfaction, I built a proof of concept for a Haxe macro that can take a tail-recursive function  and flatten it into a while loop form.'],
-    source: {title: 'coming soon', link: null}
+    source: {title: 'view on GitHub', link: 'https://github.com/blindmonkey/haxe-tail-recursion'},
+    demo: null
+  }, {
+    language: 'Python',
+    title: 'PyGame Widgets and PySignature',
+    description: ['As a part of the taxicab advertisement platform we developed at AmpIdea, we wanted users to have a smooth experience using it. This was around the time the first iPhone was being announced, so we made a platform that had a similar smooth experience, momentum scrolling, and animated transitions.',
+      'In order to catch more errors I also wrote PySignature, which is a runtime typechecking system for Python. This allowed us to catch a lot more potential runtime errors and give users a much smoother experience. Given more development, this decorator-based system could be extended into a much more rigorous static typechecking, akin to something like MyPy.'],
+    source: {title: 'coming soon', link: null},
+    demo: {title: 'Watch a short video demonstrating the AmpIdea platform', link: 'https://www.youtube.com/watch?v=oozFrEOwO5c'}
+  }, {
+    language: 'Java',
+    title: 'Scheme Interpreter',
+    description: ['For a school project, I wrote an interpreter for a version of the Scheme language as part of a text-based adventure game.'],
+    source: null,
+    demo: null
   }];
 
   var SergeyWebsiteViewModel = function() {
@@ -131,7 +140,7 @@ $(function() {
     // Page navigation
     self.page     = ko.observable();
     self.isPage   = function(p) { return p === self.page(); };
-    self.goToPage = function(p) { self.page(p); };
+    self.goToPage = function(p) { ga('send', 'pageview', '/' + p); self.page(p); };
     self.goToPage(pages.ABOUT);
     var hashHandler = function() {
       var hashValue = window.location.hash.slice(1);
