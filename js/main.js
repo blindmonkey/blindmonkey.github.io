@@ -9,12 +9,13 @@ $(function() {
     skills: ['AWS', 'SQLAlchemy', 'Flask', 'AngularJS', 'npm', 'Jenkins'],
     achievements: [
       'Defined and set priorities for the sales and operations team based on the tech roadmap.',
+      'Scaled the logistics system to a peak of almost 3,000 orders a day.',
       'Set example of code style and testing as a culture, raising code coverage from 0% to 74%.',
       'Set up a Jenkins integration server to ensure all tests pass before merging into master.',
-      'Scaled the logistics system to a peak of almost 3,000 orders a day.',
-      'Specced and implemented a robust webhook notification infrastructure.',
-      'Designed and implemented an almost real-time inventory management system.',
-      'Architected, designed and implemented a user permissions system.'
+      'Created a repository for test data to minimize boilerplate setup code and later optimized it to create the data lazily, bringing the total runtime of the test suite from 13 minutes to 3.5.',
+      'Specced and implemented a secure and robust webhook notification infrastructure.',
+      'Designed and implemented an automated, self-correcting inventory management system to track inventory throughout the logistics pipeline.',
+      'Architected, designed and implemented a user permissions system on top of an existing complex architecture to allow fine-grained control over what users can do.'
     ],
   }, {
     company: 'Google',
