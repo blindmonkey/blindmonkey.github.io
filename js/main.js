@@ -102,7 +102,7 @@ $(function() {
   var PROJECTS = [{
     language: 'Haxe',
     title: 'Tail Recursion Eliminating Macro',
-    description: ['For fun and my own self-satisfaction, I built a proof of concept for a Haxe macro that can take a tail-recursive function  and flatten it into a while loop form.'],
+    description: ['For fun, I built a proof of concept for a Haxe macro that can take a tail-recursive function  and flatten it into a while loop form.'],
     source: {title: 'view on GitHub', link: 'https://github.com/blindmonkey/haxe-tail-recursion'},
     demo: null
   }, {
