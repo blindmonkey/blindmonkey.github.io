@@ -4,7 +4,7 @@ $(function() {
     title: 'VP of Engineering',
     location: 'San Francisco, CA (remote)',
     start: {month: 'April', year: 2016},
-    end: null, //{month: 'April', year: 2017},
+    end: {month: 'April', year: 2017},
     languages: ['JavaScript', 'Python'],
     skills: ['AWS', 'SQLAlchemy', 'Flask', 'AngularJS', 'npm', 'Jenkins'],
     achievements: [
