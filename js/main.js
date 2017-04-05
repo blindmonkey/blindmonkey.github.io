@@ -138,6 +138,27 @@ $(function() {
       return [mail, 'to:', g, last, '.s@', g, mail, '.com'].join('');
     };
 
+    self.hideContent = function() {
+      var canvasElement = document.getElementById('canvas');
+      var mainContent = document.getElementsByClassName('main-content');
+      if (mainContent.length > 0) {
+        mainContent = mainContent[0];
+        if (mainContent.classList.contains('hidden')) {
+          mainContent.classList.remove('hidden');
+          // mainContent.style.display = null;
+          $(mainContent).show(1000);
+          $(canvasElement).animate({'opacity': 0.2}, 1000);
+          // canvasElement.style.opacity = 0.2;
+        } else {
+          mainContent.classList.add('hidden');
+          // mainContent.style.display = 'none';
+          $(mainContent).hide(1000);
+          $(canvasElement).animate({'opacity': 1}, 1000);
+          // canvasElement.style.opacity = 1;
+        }
+      }
+    };
+
     // Page navigation
     self.page     = ko.observable();
     self.isPage   = function(p) { return p === self.page(); };
