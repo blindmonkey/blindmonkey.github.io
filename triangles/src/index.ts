@@ -151,7 +151,7 @@ const HUE_CHANGE = Params.number('huechange', 0.02);
 const SAT_CHANGE = Params.number('satchange', 0.05);
 const MIN_SAT = Params.number('minsat', 0.7);
 const MAX_SAT = Params.number('maxsat', 1);
-const MIN_ZOOM = Params.number('minzoom', )
+const MIN_ZOOM = Params.number('minzoom', 1/3);
 
 let getNeighbors = function(grid, x, y, viewRect) {
   let neighbors = grid.getDirectNeighbors(x, y);
