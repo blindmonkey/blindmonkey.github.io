@@ -147,7 +147,7 @@ $(function() {
           mainContent.classList.remove('hidden');
           // mainContent.style.display = null;
           $(mainContent).show(1000);
-          $(canvasElement).animate({'opacity': 0.2}, 1000);
+          $(canvasElement).animate({'opacity': 0.3}, 1000);
           // canvasElement.style.opacity = 0.2;
         } else {
           mainContent.classList.add('hidden');
