@@ -11,6 +11,37 @@ import { ToolsCollection } from './tools';
 import colors from './colors';
 
 
+class Params {
+  private static params:{[key:string]: string} = (() => {
+    let rawParams = location.href.split('?').slice(1).join('?').split('#')[0].split('&');
+    let params = {};
+    for (let param of rawParams) {
+      let split = param.split('=');
+      let key = split[0];
+      let value = split.slice(1).join('=');
+      params[key] = value;
+    }
+    return params;
+  })();
+
+  static number(key:string, defaultValue?:number):number|null {
+    let value = Number(this.params[key]);
+    if (value == null || isNaN(value) || !isFinite(value)) {
+      return defaultValue || null;
+    }
+    return value;
+  }
+
+  static string(key:string, defaultValue?:string):string|null {
+    let value:string|null = this.params[key];
+    if (value == null) {
+      value = defaultValue == null ? null : defaultValue;
+    }
+    return value;
+  }
+}
+
+
 let weightedRandom = function<T>(list:Array<T>, weightFn:(T) => number) {
   if (list.length === 0) throw 'error';
   let totalWeight:number = 0;
@@ -113,13 +144,13 @@ let edgeCells:{x:number, y:number}[] = []
 
 const INITIAL_LUM = 1;
 const MAX_LUM = 0.4;
-const MIN_LUM = 0.75;
-const LUM_DELTA = -0.00001;-0.00005;0.0005;
-let REPR_PROBABILITY = 0.005;0.1;0.20;0.0024;
-const HUE_CHANGE = 0.02;
-const SAT_CHANGE = 0.05;
-const MIN_SAT = 0.7;
-const MAX_SAT = 1;
+const MIN_LUM = Params.number('minlum', 0.75);
+const LUM_DELTA = Params.number('lumdelta', -0.00001);-0.00005;0.0005;
+let REPR_PROBABILITY = Params.number('repr', 0.005);0.1;0.20;0.0024;
+const HUE_CHANGE = Params.number('huechange', 0.02);
+const SAT_CHANGE = Params.number('satchange', 0.05);
+const MIN_SAT = Params.number('minsat', 0.7);
+const MAX_SAT = Params.number('maxsat', 1);
 
 let getNeighbors = function(grid, x, y, viewRect) {
   let neighbors = grid.getDirectNeighbors(x, y);
