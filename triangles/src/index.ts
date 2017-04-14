@@ -151,6 +151,7 @@ const HUE_CHANGE = Params.number('huechange', 0.02);
 const SAT_CHANGE = Params.number('satchange', 0.05);
 const MIN_SAT = Params.number('minsat', 0.7);
 const MAX_SAT = Params.number('maxsat', 1);
+const MIN_ZOOM = Params.number('minzoom', )
 
 let getNeighbors = function(grid, x, y, viewRect) {
   let neighbors = grid.getDirectNeighbors(x, y);
@@ -298,14 +299,14 @@ let reproduceCells = function(dt, viewRect):boolean {
 
 
 
-let viewRect = renderer.getGridViewRect(camera);
-viewRect.left = Math.floor(viewRect.left) - 1;
-viewRect.top = Math.floor(viewRect.top) - 1;
-viewRect.right = Math.ceil(viewRect.right) + 1;
-viewRect.bottom = Math.ceil(viewRect.bottom) + 1;
-for (let i = 0; i < 1000; i++) {
-updateActiveCells(100, viewRect)
-}
+// let viewRect = renderer.getGridViewRect(camera);
+// viewRect.left = Math.floor(viewRect.left) - 1;
+// viewRect.top = Math.floor(viewRect.top) - 1;
+// viewRect.right = Math.ceil(viewRect.right) + 1;
+// viewRect.bottom = Math.ceil(viewRect.bottom) + 1;
+// for (let i = 0; i < 1000; i++) {
+// updateActiveCells(100, viewRect)
+// }
 
 let lastTime = new Date().getTime();
 loop((dt:number) => {
@@ -351,7 +352,7 @@ loop((dt:number) => {
   // }
   if (grid.getCount() / ((viewRect.bottom - viewRect.top) * (viewRect.right - viewRect.left)) > 1.001) {
     let currentZoom = camera.getZoom();
-    if (currentZoom < 1/3) {
+    if (currentZoom < MIN_ZOOM) {
       camera.setZoom(currentZoom * 2);
       cameraAltered = true;
     }
