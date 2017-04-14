@@ -100,6 +100,12 @@ $(function() {
   })
 
   var PROJECTS = [{
+    language: 'TypeScript',
+    title: 'Triangle Visualization',
+    description: ['A small visualization I built for fun. It can be seen running in the background of this website. Please be warned that it requires some patience.'],
+    source: {title: 'view on GitHub', link: 'https://github.com/blindmonkey/blindmonkey.github.io/tree/master/triangles'},
+    demo: {title: 'view standalone', link: 'https://blindmonkey.github.io/triangles.html'}
+  }, {
     language: 'Haxe',
     title: 'Tail Recursion Eliminating Macro',
     description: ['For fun, I built a proof of concept for a Haxe macro that can take a tail-recursive function  and flatten it into a while loop form.'],
