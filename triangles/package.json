@@ -1,0 +1,33 @@
+{
+  "name": "triangles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "config": {
+    "watch": "src",
+    "app": "src/index.ts",
+    "bundle": "index.js",
+    "map": "index.js.map"
+  },
+  "browserify": {
+    "transform": []
+  },
+  "scripts": {
+    "clean": "cross-conf-env rimraf npm_package_config_bundle",
+    "build": "cross-conf-env browserify -s npm_package_name npm_package_config_app -o npm_package_config_bundle -p [tsify --target='es6'] -t [preprocessify --contextFile build/debug.json] --no-bundle-external --debug",
+    "watch": "cross-conf-env watchify  -s npm_package_name npm_package_config_app -o npm_package_config_bundle -p [tsify --target='es6'] -t [preprocessify --contextFile build/debug.json] --no-bundle-external --debug -dv"
+  },
+  "devDependencies": {
+    "cross-conf-env": "^1.0.0",
+    "mapstraction": "^1.0.0",
+    "parallelshell": "^2.0.0",
+    "preprocessify": "^1.0.0",
+    "rimraf": "^1.0.9",
+    "tsify": "^1.0.0",
+    "typescript": "^2.2.2",
+    "watch": "^1.0.2",
+    "watchify": "^3.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
