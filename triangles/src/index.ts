@@ -24,18 +24,18 @@ class Params {
     return params;
   })();
 
-  static number(key:string, defaultValue?:number):number|null {
+  static number(key:string, defaultValue:number):number {
     let value = Number(this.params[key]);
     if (value == null || isNaN(value) || !isFinite(value)) {
-      return defaultValue || null;
+      value = defaultValue;
     }
     return value;
   }
 
-  static string(key:string, defaultValue?:string):string|null {
+  static string(key:string, defaultValue:string):string {
     let value:string|null = this.params[key];
     if (value == null) {
-      value = defaultValue == null ? null : defaultValue;
+      value = defaultValue;
     }
     return value;
   }
