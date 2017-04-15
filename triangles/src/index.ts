@@ -145,7 +145,7 @@ let edgeCells:{x:number, y:number}[] = []
 const INITIAL_LUM = 1;
 const MAX_LUM = 0.4;
 const MIN_LUM = Params.number('minlum', 0.75);
-const LUM_DELTA = Params.number('lumdelta', -0.00001);-0.00005;0.0005;
+const LUM_DELTA = Params.number('lumdelta', -0.005);-0.00005;0.0005;
 let REPR_PROBABILITY = Params.number('repr', 0.005);0.1;0.20;0.0024;
 const HUE_CHANGE = Math.abs(Params.number('huechange', 0.02));
 const SAT_CHANGE = Math.abs(Params.number('satchange', 0.05));
@@ -318,7 +318,7 @@ loop((dt:number) => {
   lastFrame = thisFrame;
 
   if (REPR_PROBABILITY < 0.95) {
-    REPR_PROBABILITY += dt / 2000000000;
+    REPR_PROBABILITY += dt / 300000;
   }
   if (REPR_PROBABILITY > 0.95) {
     REPR_PROBABILITY = 0.95;
@@ -400,6 +400,8 @@ loop((dt:number) => {
     renderer.renderCells(context, camera, edgeCells, mainTriangleRenderer);
   }
   reproduceCells(dt, viewRect);
+
+
 
   // renderer.renderCells(context, camera, [hovered], (context, cell, x, y) => {
   //   context.lineJoin = 'round';
