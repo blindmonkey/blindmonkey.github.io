@@ -93,7 +93,7 @@ let canvasHeight:number = canvas.height;
 let context:CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext('2d');
 
 let camera = new Camera(canvasWidth, canvasHeight);
-camera.setZoom(1/96);
+camera.setZoom(Params.number('zoom', 1/96));
 
 
 type HSLCell = {h:number, s:number, l:number, color?:string};
