@@ -143,7 +143,7 @@ let activeCells:{x:number, y:number}[] = [{x: 0, y: 0}];
 let edgeCells:{x:number, y:number}[] = []
 
 const INITIAL_LUM = 1;
-const MAX_LUM = 0.4;
+const MAX_LUM = 0.7;
 const MIN_LUM = Params.number('minlum', 0.75);
 const LUM_DELTA = Params.number('lumdelta', -0.03);-0.00005;0.0005;
 let REPR_PROBABILITY = Params.number('repr', 0.005);0.1;0.20;0.0024;
