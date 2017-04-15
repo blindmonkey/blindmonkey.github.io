@@ -2,6 +2,8 @@
 
 This is a small interesting visualization that I built after I was inspired by the wonderful game [Kami 2](https://itunes.apple.com/us/app/kami-2/id1133161444?mt=8).
 
+The code is currently quite messy, and could use some refactoring.
+
 
 ## Building
 
