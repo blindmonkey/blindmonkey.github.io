@@ -348,7 +348,6 @@ loop((dt:number) => {
   viewRect.bottom = Math.ceil(viewRect.bottom) + 1;
   //for (let i = 0; i < 500; i++) {
   updateActiveCells(dt, viewRect);
-  reproduceCells(dt, viewRect);
   // }
   if (grid.getCount() / ((viewRect.bottom - viewRect.top) * (viewRect.right - viewRect.left)) > 1.001) {
     let currentZoom = camera.getZoom();
@@ -393,6 +392,7 @@ loop((dt:number) => {
     renderer.renderCells(context, camera, activeCells, mainTriangleRenderer);
     renderer.renderCells(context, camera, edgeCells, mainTriangleRenderer);
   }
+  reproduceCells(dt, viewRect);
 
   // renderer.renderCells(context, camera, [hovered], (context, cell, x, y) => {
   //   context.lineJoin = 'round';
