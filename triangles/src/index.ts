@@ -308,8 +308,15 @@ let reproduceCells = function(dt, viewRect):boolean {
 // updateActiveCells(100, viewRect)
 // }
 
+let lastFrame:number|null = null;
 let lastTime = new Date().getTime();
 loop((dt:number) => {
+  let thisFrame = dt;
+  if (lastFrame != null) {
+    dt = thisFrame - lastFrame;
+  }
+  lastFrame = thisFrame;
+
   if (REPR_PROBABILITY < 0.95) {
     REPR_PROBABILITY += dt / 2000000000;
   }
