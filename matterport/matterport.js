@@ -8,14 +8,14 @@
         }
 
         var showcaseLoaded = function(showcase) {
-            console.log('showcase loaded!')
+            console.log('showcase loaded!');
             showcase.on(showcase.Events.MODEL_LOADED, function() {});
             showcase.on(showcase.Events.ENTER_PANO, function() {});
             showcase.on(showcase.Events.MOVE, function() {});
         }
 
         var matterportLoaded = function() {
-            console.log('Iframe loaded')
+            console.log('Iframe loaded');
             try {
                 // ** Replace demo applicationKey with your application key **
                 window.SHOWCASE_EMBED_SDK.connect({
@@ -30,8 +30,10 @@
             }
         };
 
+        console.log('Setting URL');
         iframe.addEventListener('load', matterportLoaded, true);
         iframe.setAttribute('src', 'https://my.matterport.com/show/?m=' + matterportId + '&hhl=0&play=1&tiles=1');
+        console.log('Now we wait');
     };
 
     window.initializeMatterport = function(matterportId) {
