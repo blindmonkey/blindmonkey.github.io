@@ -1,7 +1,9 @@
 (function() {
 
     var initialize = function(matterportId, iframe) {
+        console.log('Intitializing...');
         if (!matterportId || !iframe) {
+            console.log('Failed');
             return;
         }
 
@@ -31,11 +33,15 @@
     };
 
     window.initializeMatterport = function(matterportId) {
+        console.log('initializeMatterport(', matterportId, ')');
         var iframe = document.getElementById('matterport-content');
         if (iframe) {
+            console.log('Loaded!');
             initialize(matterportId, iframe);
         } else {
+            console.log('Not yet ready...');
             window.onload = function() {
+                console.log('onload');
                 var iframe = document.getElementById('matterport-content');
                 initialize(matterportId, iframe);
             };
