@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://static.matterport.com/showcase-sdk/1.0.0-0-gea9ccd9/index.js"></script>
+        <script type="text/javascript" src="matterport.js"></script>
+    </head>
+    <body>
+        <style>
+            body {
+                background-color: black;
+            }
+            #matterport-content {
+                width: 100%;
+                height: 100%;
+                background-color: red;
+                border-width: 0px;
+            }
+            .debug-label {
+                padding: 8px;
+                border: 1px solid grey;
+                margin: 4px;
+            }
+        </style>
+        <iframe id="matterport-content">
+        </iframe>
+        <div class="debug-label" style="position: fixed; left: 0px, top: 0px">
+            This is a test
+        </div>
+    </body>
+</html>
