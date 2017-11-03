@@ -1,7 +1,7 @@
 (function() {
 
     var initialize = function(matterportId, iframe) {
-        console.log('Intitializing...');
+        console.log('Intitializing... %s', matterportId, iframe);
         if (!matterportId || !iframe) {
             console.log('Failed');
             return;
