@@ -7,13 +7,15 @@
             return;
         }
 
+        console.log('step 1');
         var showcaseLoaded = function(showcase) {
             console.log('showcase loaded!');
             showcase.on(showcase.Events.MODEL_LOADED, function() {});
             showcase.on(showcase.Events.ENTER_PANO, function() {});
             showcase.on(showcase.Events.MOVE, function() {});
-        }
+        };
 
+        console.log('step 2');
         var matterportLoaded = function() {
             console.log('Iframe loaded');
             try {
