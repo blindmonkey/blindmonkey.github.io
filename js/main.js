@@ -1,4 +1,115 @@
 $(function() {
+  var thro = function(obj) { throw obj; };
+  var Loadable = window.Loadable = function(config) {
+    this.loaded = false;
+    this.html = config.html || thro('No html');
+    this.js = config.js || thro('No js');
+    this.target = config.target || thro('No target');
+    this.loadedData = null;
+  };
+  Loadable.prototype.load = function() {
+    var target = this.target;
+    if (this.loaded) {
+      if (this.loadedData != null) {
+        var data = this.loadedData;
+        $(target).html(data);
+      }
+      return;
+    }
+    var self = this;
+    this.loaded = true;
+    $.getScript(this.js);
+    $.ajax({
+      url: this.html,
+      dataType: "text",
+      success: function(data) {
+        self.loadedData = data;
+        $(target).html(data);
+      }
+    });
+  };
+
+  var Song = function(id) {
+    this.id = id;
+    this.loaded = ko.observable(null);
+  };
+  Song.prototype.load = function() {
+    $.getScript('music/' + this.id + '.js');
+  };
+
+  var SongList = function(list) {
+    this.songs = list;
+    this.loading = false;
+    this.songsById = {};
+    // this.selectedId = ko.observable(null);
+    this.selected = ko.observable(null);
+  };
+  SongList.prototype.selectSong = function(id, transpose) {
+    // this.selectedId(id);
+    console.log('Selected', id)
+    var song = this.songsById[id];
+    var songdata = (song && song.loaded()) || null;
+    var lyrics = null;
+    var key = null;
+    if (songdata != null) {
+      var lyrics = songdata.lyrics;
+      var key = songdata.key;
+      if (transpose != null) {
+        transpose = Number(transpose);
+        if (lyrics != null && key != null) {
+          lyrics = lyrics.copy().transpose(transpose);
+          key = key.transpose(transpose);
+        }
+      }
+    }
+    this.selected({id: id, song: songdata, lyrics: lyrics, key: key});
+    return songdata != null;
+  };
+  SongList.prototype.generateTransposeDownLink = function() {
+    var selected = this.selected();
+    return this.generateTransposeAmountLink(
+      selected.song.key.note.octave(4).distanceTo(selected.key.note.octave(4)) - 1);
+  };
+  SongList.prototype.generateTransposeUpLink = function() {
+    var selected = this.selected();
+    return this.generateTransposeAmountLink(
+      selected.song.key.note.octave(4).distanceTo(selected.key.note.octave(4)) + 1);
+  };
+  SongList.prototype.generateTransposeAmountLink = function(amount) {
+    var selected = this.selected();
+    var link = '#music/' + selected.id;
+    return link + (amount !== 0 ? '/' + amount : '');
+  };
+  SongList.prototype.generateTransposeToChordLink = function(target) {
+    var selected = this.selected();
+    var transposeBy = selected.song.key.note.octave(4).distanceTo(target.note.octave(4));
+    return this.generateTransposeAmountLink(transposeBy);
+  };
+  SongList.prototype.load = function(path) {
+    console.log('SongList', 'loading', path)
+    path  && this.selectSong(path[0], path[1]);
+    if (this.loading) return;
+    this.loading = true;
+    var songs = this.songsById = {};
+    var self = this;
+    window.songLoaded = function(songdata) {
+      var id = songdata.id;
+      console.log('Loaded song', id);
+      if (!(id in songs)) throw 'No such song: ' + id;
+      songs[id].loaded(songdata);
+      console.log('Selected song is ', self.selected().id);
+      if (id === self.selected().id) {
+        console.log('song is selected');
+        self.selectSong(id, path[1]);
+      }
+    };
+    for (var i = 0; i < this.songs.length; i++) {
+      var song = this.songs[i];
+      songs[song.id] = song;
+      this.songs[i].load();
+    }
+  };
+
   var JOBS = [{
     company: 'Shotput',
     title: 'VP of Engineering',
@@ -126,15 +237,33 @@ $(function() {
     demo: null
   }];
 
+  var SONGS = new SongList([
+    new Song('hotel-california'),
+    new Song('let-it-be'),
+    new Song('wild-world')
+  ]);
+
+  var Page = function(name, loadable) {
+    this.name = name;
+    this.loadable = loadable;
+  };
+  Page.prototype.load = function(path) {
+    this.loadable && this.loadable.load(path);
+  };
+
   var SergeyWebsiteViewModel = function() {
     var self = this;
     self.jobs = ko.observable(JOBS);
     self.projects = ko.observable(PROJECTS);
+    self.songs = ko.observable(SONGS);
 
     var pages = self.pages = {
-      ABOUT: 'about',
-      EXPERIENCE: 'experience',
-      PROJECTS: 'projects'
+      ABOUT: new Page('about'),
+      EXPERIENCE: new Page('experience'),
+      PROJECTS: new Page('projects'),
+      MUSIC: new Page('music', { load: function(path) {
+        SONGS.load(path);
+      }})
     };
 
     self.generateMailLink = function() {
@@ -167,14 +296,19 @@ $(function() {
 
     // Page navigation
     self.page     = ko.observable();
-    self.isPage   = function(p) { return p === self.page(); };
-    self.goToPage = function(p) { ga('send', 'pageview', '/' + p); self.page(p); };
+    self.isPage   = function(p) { return p.name === self.page().name; };
+    self.goToPage = function(p, path) {
+      console.log('goToPage', p, path);
+      ga('send', 'pageview', '/' + p.name); self.page(p); p.load(path)};
     self.goToPage(pages.ABOUT);
     var hashHandler = function() {
       var hashValue = window.location.hash.slice(1);
+      var path = hashValue.split('/');
+      hashValue = path[0];
+
       var resolved = null;
       for (var pageKey in pages) {
-        if (pages[pageKey] === hashValue) {
+        if (pages[pageKey].name === hashValue) {
           resolved = pages[pageKey];
           break;
         }
@@ -182,10 +316,11 @@ $(function() {
       if (resolved == null) {
         resolved = pages.ABOUT;
       }
-      self.goToPage(resolved);
+      self.goToPage(resolved, path.slice(1));
     };
     window.addEventListener('hashchange', hashHandler);
     hashHandler();
   };
+
   ko.applyBindings(new SergeyWebsiteViewModel());
 });

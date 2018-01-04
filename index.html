@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/jquery-3.1.1.min.js" ></script>
     <script type="text/javascript" src="js/bootstrap.min.js" ></script>
     <script type="text/javascript" src="js/knockout.debug.js"></script>
+    <script type="text/javascript" src="js/music.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="triangles/index.js"></script>
     <script>
@@ -21,7 +22,6 @@
 
       ga('create', 'UA-93541340-1', 'auto');
       ga('send', 'pageview');
-
     </script>
   </head>
   <body>
@@ -49,6 +49,9 @@
           </li>
           <li role="presentation" data-bind="css: {active: isPage(pages.PROJECTS)}">
             <a href="#projects">Projects</a>
+          </li>
+          <li role="presentation" data-bind="css: {active: isPage(pages.MUSIC)}">
+            <a href="#music">Music</a>
           </li>
           <li role="presentation"><a href="files/sergey-grabkovsky-resume.pdf" target="_blank">
             Resume &nbsp;<i class="glyphicon glyphicon-new-window"></i></a></li>
@@ -206,6 +209,53 @@
             <span data-bind="if: demo.link != null">
               <a data-bind="attr: {href: demo.link}, text: demo.title" target="_blank"></a>
             </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="content" data-bind="if: isPage(pages.MUSIC)">
+        <div data-bind="if: songs().selected().song == null">
+          <h2>Songs</h2>
+
+          <ul class="songlist" data-bind="foreach: songs().songs">
+            <li>
+              <a data-bind="attr: {href: '#music/' + id}">
+                <span data-bind="if: loaded() != null">
+                  <span data-bind="text: loaded().by"></span> - <span data-bind="text: loaded().name"></span>
+                </span>
+                <span data-bind="if: loaded() == null">
+                  <span data-bind="text: id"></span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div data-bind="if: songs().selected().song != null">
+          <a href="#music">To song list</a>
+          <h2 data-bind="text: songs().selected().song.name"></h2>
+          <h5 data-bind="text: 'by ' + songs().selected().song.by"></h5>
+          <br/>
+
+
+          <div>
+            Key: <span data-bind="text: songs().selected().song.key.display()"></span>
+            &nbsp;|&nbsp; Transpose:&nbsp;
+            <a data-bind="attr: {href: songs().generateTransposeDownLink()}">-1</a>
+            &nbsp;
+            <a data-bind="attr: {href: songs().generateTransposeUpLink()}">+1</a>
+          </div>
+          <div data-bind="foreach: songs().selected().song.keys ">
+            <div>
+              <span data-bind="text: label"></span>:
+              <a data-bind="attr: {href: $parent.songs().generateTransposeToChordLink(key)}, text: key.display()"></a>
+            </div>
+          </div>
+
+          <div data-bind="text: Object.keys(songs().selected().lyrics)"></div>
+          <div data-bind="foreach: songs().selected().lyrics.lines">
+            <pre class="lyrics" data-bind="text: chords"></pre>
+            <span data-bind="if: lyrics != null"><pre class="lyrics" data-bind="text: lyrics"></pre></span>
           </div>
         </div>
       </div>

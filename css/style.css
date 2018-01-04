@@ -95,3 +95,21 @@ div.content p {
 .bold {
     font-weight: bold;
 }
+
+.monospace {
+    font-family: monospace;
+}
+
+
+pre.lyrics {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    background-color: rgba(0,0,0,0);
+}
+
+
+ul.songlist {
+    list-style: none;
+    padding-left: 0px;
+}
