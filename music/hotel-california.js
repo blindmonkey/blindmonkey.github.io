@@ -1,24 +1,13 @@
-(function() {
-
-var C = music.Chord.C;
-var D = music.Chord.D;
-var E = music.Chord.E;
-var Em = E.minor();
-var G = music.Chord.G;
-var A = music.Chord.A;
-var Am = music.Chord.A.minor();
-var Dm = music.Chord.D.minor();
-var Bm = music.Chord.B.minor();
-var B7 = music.Chord.B.seventh();
-
+withChords(function() {
 
 songLoaded({
   id: 'hotel-california',
   name: 'Hotel California',
   by: 'The Eagles',
   key: Em,
+  originalKey: Bm,
   keys: [
-    { key: Bm, label: 'Original key' }
+    { key: Am, label: 'Easy key' }
   ],
   lyrics: new music.Song()
     .section('Intro')
@@ -110,4 +99,4 @@ songLoaded({
     .build()
 });
 
-})();
+});

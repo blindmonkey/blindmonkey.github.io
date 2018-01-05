@@ -28,18 +28,18 @@
     <div style="position:fixed; left: 0px; top:0px; z-index: -1000">
       <canvas id="canvas" width="800" height="600" style="opacity: 0.2"></canvas>
     </div>
-    <small style="position:fixed; right: 40px; top: 20px" class="fadein">
+    <small style="position:fixed; right: 40px; top: 20px" class="chrome fadein">
       <a href="#" data-bind="click: hideContent">Click here to hide/show the text</a>
     </small>
     <div class="fadein main-content">
-      <div class="page-header">
+      <div class="chrome page-header">
         <h1>
           &nbsp;&nbsp;<img src="img/photo.jpg" class="img-circle" width="64px" height="64px" />
           &nbsp;Sergey Grabkovsky
         </h1>
       </div>
 
-      <nav>
+      <nav class="chrome">
         <ul class="nav nav-pills nav-stacked">
           <li role="presentation" data-bind="css: {active: isPage(pages.ABOUT)}">
             <a href="#about">About Me</a>
@@ -167,7 +167,7 @@
           </div>
           <div class="inline pull-right">
             <div class="text-right">Graduated May 2011</div>
-            <div class="text-right">Dean’s List</div>
+            <div class="text-right">Dean's List</div>
           </div>
           <div>Bachelor of Science in Computer Science, Cum Laude</div>
           <div>Master of Science in Computer Science</div>
@@ -214,7 +214,12 @@
       </div>
 
       <div class="content" data-bind="if: isPage(pages.MUSIC)">
-        <div data-bind="if: songs().selected().song == null">
+        <div>
+          <a data-bind="click: hideGraphic">Hide/Show Graphic</a>
+          &nbsp;|&nbsp;
+          <a data-bind="click: hideChrome">Hide/Show Chrome</a>
+        </div>
+        <div data-bind="if: songs().selected() == null || songs().selected().song == null">
           <h2>Songs</h2>
 
           <ul class="songlist" data-bind="foreach: songs().songs">
@@ -231,28 +236,37 @@
           </ul>
         </div>
 
-        <div data-bind="if: songs().selected().song != null">
+        <div data-bind="if: songs().selected() != null && songs().selected().song != null">
           <a href="#music">To song list</a>
           <h2 data-bind="text: songs().selected().song.name"></h2>
           <h5 data-bind="text: 'by ' + songs().selected().song.by"></h5>
           <br/>
 
-
           <div>
-            Key: <span data-bind="text: songs().selected().song.key.display()"></span>
+            Key: <a data-bind="attr: {href: songs().generateTransposeToChordLink(songs().selected().song.key)}, text: songs().selected().song.key.displayWithPairing()"></a>
             &nbsp;|&nbsp; Transpose:&nbsp;
             <a data-bind="attr: {href: songs().generateTransposeDownLink()}">-1</a>
             &nbsp;
             <a data-bind="attr: {href: songs().generateTransposeUpLink()}">+1</a>
           </div>
-          <div data-bind="foreach: songs().selected().song.keys ">
+          <div data-bind="if: songs().selected().song.originalKey != null">
+            Original Key: <a data-bind="attr: {href: songs().generateTransposeToChordLink(songs().selected().song.originalKey)}, text: songs().selected().song.originalKey.displayWithPairing()"></a>
+          </div>
+          <div data-bind="foreach: songs().selected().song.keys">
             <div>
               <span data-bind="text: label"></span>:
-              <a data-bind="attr: {href: $parent.songs().generateTransposeToChordLink(key)}, text: key.display()"></a>
+              <a data-bind="attr: {href: $parent.songs().generateTransposeToChordLink(key)}, text: key.displayWithPairing()"></a>
+            </div>
+          </div>
+          <div data-bind="with: songs().selected().song.originalKey || songs().selected().song.key">
+            <div data-bind="if: $parent.songs().selected().song.key.distanceTo($parent.songs().selected().key) !== 0">
+              Current key: <span data-bind="text: $parent.songs().selected().key.displayWithPairing()"></span>
+            </div>
+            <div data-bind="if: $parent.songs().getCapoOffset($data) !== 0">
+              For original key, capo at <span data-bind="text: $parent.songs().getCapoOffset($data)"></span>
             </div>
           </div>
 
-          <div data-bind="text: Object.keys(songs().selected().lyrics)"></div>
           <div data-bind="foreach: songs().selected().lyrics.lines">
             <pre class="lyrics" data-bind="text: chords"></pre>
             <span data-bind="if: lyrics != null"><pre class="lyrics" data-bind="text: lyrics"></pre></span>

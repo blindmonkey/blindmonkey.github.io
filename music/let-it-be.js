@@ -1,22 +1,10 @@
-(function() {
-
-var C = music.Chord.C;
-var D = music.Chord.D;
-var E = music.Chord.E;
-var Em = Em;
-var F = music.Chord.F;
-var G = music.Chord.G;
-var A = music.Chord.A;
-var Am = music.Chord.A.minor();
-var Dm = music.Chord.D.minor();
-var B7 = music.Chord.B.seventh();
+withChords(function() {
 
 songLoaded({
   id: 'let-it-be',
   name: 'Let It Be',
   by: 'The Beatles',
   key: C,
-  // keys: [],
   lyrics: new music.Song()
     .section('Intro')
     .line({spacing: 4, lyrics: false}).chords(C, G, Am, F)
@@ -77,4 +65,4 @@ songLoaded({
 
 });
 
-})();
+});

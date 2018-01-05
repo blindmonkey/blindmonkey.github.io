@@ -70,10 +70,18 @@ $(function() {
     return this.generateTransposeAmountLink(
       selected.song.key.note.octave(4).distanceTo(selected.key.note.octave(4)) - 1);
   };
-  SongList.prototype.generateTransposeUpLink = function() {
+  SongList.prototype.getCapoOffset = function(toKey) {
+    var distance = this.selected().key.note.octave(4).distanceTo(toKey.note.octave(4));
+    if (distance < 0) distance += 12;
+    return distance % 12;
+  };
+  SongList.prototype.transposeUpAmount = function(toKey) {
     var selected = this.selected();
-    return this.generateTransposeAmountLink(
-      selected.song.key.note.octave(4).distanceTo(selected.key.note.octave(4)) + 1);
+    toKey = toKey || selected.song.key;
+    return toKey.note.octave(4).distanceTo(selected.key.note.octave(4)) + 1;
+  }
+  SongList.prototype.generateTransposeUpLink = function() {
+    return this.generateTransposeAmountLink(this.transposeUpAmount());
   };
   SongList.prototype.generateTransposeAmountLink = function(amount) {
     var selected = this.selected();
@@ -291,6 +299,27 @@ $(function() {
           $(canvasElement).animate({'opacity': 1}, 1000);
           // canvasElement.style.opacity = 1;
         }
+      }
+    };
+    self.hideGraphic = function() {
+      var canvas = document.getElementById('canvas');
+      if (canvas.classList.contains('hidden')) {
+        canvas.classList.remove('hidden')
+        $(canvas).animate({'opacity': 0.2}, 1000);
+      } else {
+        canvas.classList.add('hidden')
+        $(canvas).animate({'opacity': 0.0}, 1000);
+      }
+    };
+    self.hideChrome = function() {
+      var chrome = $('.chrome');
+      if (chrome.hasClass('hidden')) {
+        chrome.removeClass('hidden');
+        chrome.css('display', 'inherit');
+        chrome.animate({'opacity': 1.0}, 200);
+      } else {
+        chrome.addClass('hidden');
+        chrome.animate({'opacity': 1.0, 'display': 'none'}, 200);
       }
     };
 
