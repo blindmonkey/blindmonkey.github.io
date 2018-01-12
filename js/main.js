@@ -138,10 +138,11 @@ $(function() {
     };
 
     self.generateMailLink = function() {
+      var contact = 'contact';
+      var first = 'sergey';
       var g = 'g';
-      var last = 'rabkovsky';
       var mail = 'mail';
-      return [mail, 'to:', g, last, '.s@', g, mail, '.com'].join('');
+      return [mail, 'to:', contact, '@', first, g, '.com'].join('');
     };
 
     self.hideContent = function() {
