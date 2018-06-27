@@ -1,5 +1,15 @@
 $(function() {
   var JOBS = [{
+    hidden: true,
+    company: 'Hopper',
+    title: 'Senior Software Engineer',
+    location: 'Cambridge, MA',
+    start: {month: 'May', year: 2017, day: 8},
+    end: null,
+    languages: [],
+    skills: [],
+    achievements: []
+  }, {
     company: 'Shotput',
     title: 'VP of Engineering',
     location: 'San Francisco, CA (remote)',
@@ -164,6 +174,41 @@ $(function() {
           // canvasElement.style.opacity = 1;
         }
       }
+    };
+
+    var MONTHS = ['january', 'february', 'march', 'april',
+                  'may', 'june', 'july', 'august',
+                  'september', 'october', 'november', 'december'];
+    var dateFromComponents = function(date) {
+      if (date == null) return new Date();
+      var month = MONTHS.indexOf(date.month.toLowerCase())
+      return new Date(date.year, month + 1, 1);
+    };
+    var computeYearsWorked = function(job) {
+      var endDate = dateFromComponents(job.end);
+      var startDate = dateFromComponents(job.start);
+
+      var result = (endDate.getTime() - startDate.getTime())
+        / 1000 // ms/second
+        / 60 // seconds/minute
+        / 60 // minutes/hour
+        / 24 // hours/day
+        / 365.25 // days/year
+        ;
+      return result;
+    };
+    self.computeYearsWorked = computeYearsWorked;
+
+    self.computeExperience = function() {
+      var yearsWorked = 0;
+      for (var i = 0; i < JOBS.length; i++) {
+        var job = JOBS[i]
+        var title = job.title;
+        if (title.toLowerCase().indexOf('co-op') < 0 && title.toLowerCase().indexOf('intern') < 0) {
+          yearsWorked += computeYearsWorked(job);
+        }
+      }
+      return String(Math.floor(yearsWorked * 2) / 2);
     };
 
     // Page navigation

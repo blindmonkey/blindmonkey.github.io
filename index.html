@@ -71,7 +71,7 @@
         <h2>About Me</h2>
         <p>I am a problem solver who takes big complex tasks and breaks them down into small executable pieces. Whether working with other engineers or taking the task on myself, I get things done in a maintainable and efficient way. I clarify project specifications by noticing ambiguities and asking the right questions to resolve them.</p>
 
-        <p>In my 7 years of experience, I have worked everywhere in the stack. I am as comfortable writing backend C as I am writing frontend JavaScript and laying out HTML. I pride myself in being a quick learner and enjoy working in new fields, languages, and frameworks.
+        <p>In my <span data-bind="text: computeExperience()">7</span> years of experience, I have worked everywhere in the stack. I am as comfortable writing backend C as I am writing frontend JavaScript and laying out HTML. I pride myself in being a quick learner and enjoy working in new fields, languages, and frameworks.
         </p>
 
         <p>Especially interested in compilers, parsers, programming languages, artificial intelligence, game development, computer graphics, audio generation and processing, visualization, and computational geometry.</p>
@@ -119,7 +119,8 @@
       <div class="content" data-bind="if: isPage(pages.EXPERIENCE)">
         <h2>Work Experience</h2>
         <div data-bind="foreach: jobs">
-          <div class="experience-item">
+          <div class="experience-item" data-bind="if: !$data.hidden">
+            <div class="inline">Years worked: <span data-bind="text: $parent.computeYearsWorked($data)"></span></div>
             <div class="inline">
               <div>
                 <span class="company" data-bind="text: company"></span>,
