@@ -211,6 +211,12 @@ $(function() {
       return String(Math.floor(yearsWorked * 2) / 2);
     };
 
+    self.filteredJobs = [];
+    for (var i = 0; i < JOBS.length; i++) {
+      var job = JOBS[i];
+      if (!job.hidden) self.filteredJobs.push(job);
+    }
+
     // Page navigation
     self.page     = ko.observable();
     self.isPage   = function(p) { return p === self.page(); };

@@ -118,9 +118,8 @@
 
       <div class="content" data-bind="if: isPage(pages.EXPERIENCE)">
         <h2>Work Experience</h2>
-        <div data-bind="foreach: jobs">
+        <div data-bind="foreach: filteredJobs">
           <div class="experience-item" data-bind="if: !$data.hidden">
-            <div class="inline">Years worked: <span data-bind="text: $parent.computeYearsWorked($data)"></span></div>
             <div class="inline">
               <div>
                 <span class="company" data-bind="text: company"></span>,
