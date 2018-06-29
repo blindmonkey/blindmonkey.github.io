@@ -140,6 +140,11 @@
                   <span data-bind="text: end.year"></span>
                 </span>
               </div>
+              <div style="text-align: right">
+                <small class="text-muted">
+                  <span data-bind="text: $root.computeDurationWorked($data)"></span>
+                </small>
+              </div>
             </span>
             <div>
               <span data-bind="foreach: languages">

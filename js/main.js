@@ -1,4 +1,7 @@
 $(function() {
+  var JobTypes = {};
+  JobTypes.Internship = 'internship';
+  JobTypes.Coop = 'co-op';
   var JOBS = [{
     hidden: true,
     company: 'Hopper',
@@ -14,7 +17,7 @@ $(function() {
     title: 'VP of Engineering',
     location: 'San Francisco, CA (remote)',
     start: {month: 'April', year: 2016},
-    end: {month: 'April', year: 2017},
+    end: {month: 'March', year: 2017},
     languages: ['JavaScript', 'Python'],
     skills: ['AWS', 'SQLAlchemy', 'Flask', 'AngularJS', 'npm', 'Jenkins'],
     achievements: [
@@ -49,6 +52,7 @@ $(function() {
       'Refactored the +1 button into reusable widget components.'
     ]
   }, {
+    type: JobTypes.Coop,
     company: 'Amazon.com',
     title: 'Software Development Co-op',
     location: 'Seattle, WA',
@@ -75,6 +79,7 @@ $(function() {
       'Designed and developed a module to interface with various outdated taximeters in Python, which required using serial ports and understanding the protocols they used.'
     ]
   }, {
+    type: JobTypes.Coop,
     company: 'EMC',
     title: 'Software Development Co-op',
     location: 'Southborough, MA',
@@ -89,6 +94,7 @@ $(function() {
       'Wrote Perl scripts to help with development and consolidate testing data.'
     ]
   }, {
+    type: JobTypes.Internship,
     company: 'Rue La La',
     title: 'Software Development Intern',
     location: 'Boston, MA',
@@ -179,24 +185,52 @@ $(function() {
     var MONTHS = ['january', 'february', 'march', 'april',
                   'may', 'june', 'july', 'august',
                   'september', 'october', 'november', 'december'];
-    var dateFromComponents = function(date) {
+    var dateFromComponents = function(date, end) {
       if (date == null) return new Date();
       var month = MONTHS.indexOf(date.month.toLowerCase())
-      return new Date(date.year, month + 1, 1);
+      return new Date(date.year, month + (end?1:0), 1);
+    };
+    var computeMonthsWorked = function(job) {
+      console.log('Computing months from', job.start, 'to', job.end);
+      var endDate = dateFromComponents(job.end, true);
+      var startDate = dateFromComponents(job.start);
+      console.log('Start:', startDate)
+      console.log('End:', endDate)
+      var months = 0;
+      while (endDate.getFullYear() > startDate.getFullYear() || endDate.getMonth() > startDate.getMonth()) {
+        console.log('End date is ', endDate);
+        endDate.setMonth(endDate.getMonth() - 1);
+        months++;
+      }
+      return months;
     };
     var computeYearsWorked = function(job) {
-      var endDate = dateFromComponents(job.end);
-      var startDate = dateFromComponents(job.start);
-
-      var result = (endDate.getTime() - startDate.getTime())
-        / 1000 // ms/second
-        / 60 // seconds/minute
-        / 60 // minutes/hour
-        / 24 // hours/day
-        / 365.25 // days/year
-        ;
-      return result;
+      return computeMonthsWorked(job) / 12;
     };
+    self.computeDurationWorked = function(job) {
+      var months = computeMonthsWorked(job);
+      var remainingMonths = months % 12;
+      var years = (months - remainingMonths) / 12;
+      var output = [];
+      if (years > 0) {
+        output.push(String(years));
+        if (years > 1) {
+          output.push('years');
+        } else {
+          output.push('year');
+        }
+      }
+      if (remainingMonths > 0) {
+        output.push(String(remainingMonths))
+        if (remainingMonths > 1) {
+          output.push('months');
+        } else {
+          output.push('month');
+        }
+      }
+      return output.join(' ');
+    };
+    self.computeMonthsWorked = computeMonthsWorked;
     self.computeYearsWorked = computeYearsWorked;
 
     self.computeExperience = function() {
