@@ -13,7 +13,7 @@
     </ul>
 
     <br/>
-    <p class="text-muted">This web site was built with love using <a href="http://knockoutjs.com/">Knockout</a>, <a href="http://getbootstrap.com/">Bootstrap</a>, and of course <a href="https://jquery.com/">jQuery</a>.</p>
+    <p class="text-muted">This web site was built with love using <a href="https://vuejs.org/">Vue.js</a> and <a href="http://getbootstrap.com/">Bootstrap</a>.</p>
     <p class="text-muted">&copy; Sergey Grabkovsky 2017</p>
   </nav>
 </template>
