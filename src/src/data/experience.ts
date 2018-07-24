@@ -1,7 +1,7 @@
 import { AbsoluteDate } from '@/helpers/dates';
 import { ProgrammingLanguages } from '@/data/languages';
 
-namespace Jobs {
+export namespace Jobs {
   export type Internship = 'internship';
   export type Coop = 'co-op';
   export type FullTime = 'fulltime';

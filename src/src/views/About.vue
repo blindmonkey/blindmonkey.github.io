@@ -1,13 +1,13 @@
 <template>
   <div class="about">
     <h2>Contact</h2>
-    <p>You may contact me either by navigating to <a href="https://www.linkedin.com/in/sergey-g/" target="_blank">my LinkedIn page</a> or by <a data-bind="attr: {href: generateMailLink()}">sending me an email</a>.</p>
+    <p>You may contact me either by navigating to <a href="https://www.linkedin.com/in/sergey-g/" target="_blank">my LinkedIn page</a> or by <a v-bind:href="generateMailLink()">sending me an email</a>.</p>
 
     <br/>
     <h2>About Me</h2>
     <p>I am a problem solver who takes big complex tasks and breaks them down into small executable pieces. Whether working with other engineers or taking the task on myself, I get things done in a maintainable and efficient way. I clarify project specifications by noticing ambiguities and asking the right questions to resolve them.</p>
 
-    <p>In my <span data-bind="text: computeExperience()">7</span> years of experience, I have worked everywhere in the stack. I am as comfortable writing backend C as I am writing frontend JavaScript and laying out HTML. I pride myself in being a quick learner and enjoy working in new fields, languages, and frameworks.
+    <p>In my <span>{{ computeExperience() }}</span> of experience, I have worked everywhere in the stack. I am as comfortable writing backend C as I am writing frontend JavaScript and laying out HTML. I pride myself in being a quick learner and enjoy working in new fields, languages, and frameworks.
     </p>
 
     <p>Especially interested in compilers, parsers, programming languages, artificial intelligence, game development, computer graphics, audio generation and processing, visualization, and computational geometry.</p>
@@ -52,3 +52,38 @@
     </table>
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { DateMath } from '@/helpers/dates';
+import { JOBS, Jobs } from '@/data/experience';
+
+@Component({})
+export default class About extends Vue {
+  public generateMailLink(): string {
+    const contact = 'contact';
+    const first = 'sergey';
+    const g = 'g';
+    const mail = 'mail';
+    return [mail, 'to:', contact, '@', first, g, '.com'].join('');
+  }
+
+  public computeExperience(): string {
+    const relevantExperience = JOBS.filter((job) => job.type === Jobs.FullTime);
+    let totalYears = 0;
+    for (const job of relevantExperience) {
+      totalYears += DateMath.yearsDuration(job.start, job.end);
+    }
+
+    const wholeYears = Math.floor(totalYears);
+    const fractionalRemainder = totalYears % 1;
+    if (fractionalRemainder >= 0.85) {
+      return ['almost', wholeYears + 1, 'years'].join(' ');
+    } else if (0.4 < fractionalRemainder && fractionalRemainder < 0.85) {
+      return [wholeYears + .5, 'years'].join(' ');
+    } else {
+      return [wholeYears, 'years'].join(' ');
+    }
+  }
+}
+</script>
