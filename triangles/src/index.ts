@@ -10,58 +10,11 @@ import { ToolsCollection } from './tools';
 
 import colors from './colors';
 
+import { Params } from './params';
 
-class Params {
-  private static params:{[key:string]: string} = (() => {
-    let rawParams = location.href.split('?').slice(1).join('?').split('#')[0].split('&');
-    let params = {};
-    for (let param of rawParams) {
-      let split = param.split('=');
-      let key = split[0];
-      let value = split.slice(1).join('=');
-      params[key] = value;
-    }
-    return params;
-  })();
-
-  static number(key:string, defaultValue:number):number {
-    let value = Number(this.params[key]);
-    if (value == null || isNaN(value) || !isFinite(value)) {
-      value = defaultValue;
-    }
-    return value;
-  }
-
-  static string(key:string, defaultValue:string):string {
-    let value:string|null = this.params[key];
-    if (value == null) {
-      value = defaultValue;
-    }
-    return value;
-  }
-}
-
-
-let weightedRandom = function<T>(list:Array<T>, weightFn:(T) => number) {
-  if (list.length === 0) throw 'error';
-  let totalWeight:number = 0;
-  let weights:number[] = [];
-  for (let item of list) {
-    let weight = Math.abs(weightFn(item));
-    totalWeight += weight;
-    weights.push(weight);
-  }
-  let n = Math.random() * totalWeight;
-  let cumulativeSum = 0;
-  for (let i = 0; i < weights.length; i++) {
-    cumulativeSum += weights[i];
-    if (n <= cumulativeSum) {
-      return list[i];
-    }
-  }
-  return list[list.length - 1];
-};
-
+import { weightedRandom } from './randoms';
+import { mod, clamp } from './maths';
+import { doevery_seconds } from'./log';
 
 let setStatus = function(status) {
   let statusDiv = document.getElementById('status');
@@ -79,11 +32,13 @@ let loop = function(f, dt) {
 
 type CellType = string;
 
+const TriangleOptions = window['TriangleOptions'] = {
+  interactivity: true
+};
 
-window.onload = function() {
+const onload = function(canvas: HTMLCanvasElement) {
 
 
-let canvas = <HTMLCanvasElement>document.getElementById('canvas');
 let canvasWidth:number = canvas.width;
 let canvasHeight:number = canvas.height;
 
@@ -122,22 +77,6 @@ let getHslCellColor = function(cell:HSLCell):string {
   }
   return color;
 };
-
-// grid.set({h: 0, s: 1, l: 1}, 0, 0);
-
-let mod = function(n:number, m:number):number {
-  let modded = n % m;
-  if (n < 0) n += m;
-  return n;
-};
-let clamp = function(n:number, min:number, max:number):number {
-  if (n < min) return min;
-  if (n > max) return max;
-  return n;
-};
-
-
-
 
 let activeCells:{x:number, y:number}[] = [{x: 0, y: 0}];
 let edgeCells:{x:number, y:number}[] = []
@@ -240,6 +179,7 @@ let updateActiveCells = function(dt, viewRect):void {
 };
 
 let reproduceCells = function(dt, viewRect):boolean {
+  doevery_seconds('reproduceCells', () => { console.log('Active cells:', activeCells.length) }, 5);
   let returnTrue = false;
   while ((activeCells.length > 0 || edgeCells.length > 0) && Math.random() <= REPR_PROBABILITY) {
     // let activeCell = weightedRandom(activeCells.concat(edgeCells), (cell) => {
@@ -325,27 +265,29 @@ loop((dt:number) => {
   }
 
   let cameraAltered = false;
-  if (dragPosition != null) {
-    if (lastDragPosition != null) {
-      if (dragPosition.x !== lastDragPosition.x ||
-          dragPosition.y !== lastDragPosition.y) {
-        let start = camera.untransform(lastDragPosition.x, lastDragPosition.y);
-        let end = camera.untransform(dragPosition.x, dragPosition.y);
-        camera.move(start.x - end.x, start.y - end.y);
-        cameraAltered = true;
+  if (TriangleOptions.interactivity) {
+    if (dragPosition != null) {
+      if (lastDragPosition != null) {
+        if (dragPosition.x !== lastDragPosition.x ||
+            dragPosition.y !== lastDragPosition.y) {
+          let start = camera.untransform(lastDragPosition.x, lastDragPosition.y);
+          let end = camera.untransform(dragPosition.x, dragPosition.y);
+          camera.move(start.x - end.x, start.y - end.y);
+          cameraAltered = true;
+        }
       }
+      lastDragPosition = {x: dragPosition.x, y: dragPosition.y};
+    } else if (lastDragPosition != null) {
+      lastDragPosition = null;
     }
-    lastDragPosition = {x: dragPosition.x, y: dragPosition.y};
-  } else if (lastDragPosition != null) {
-    lastDragPosition = null;
-  }
-  if (keyInteractivity.isDown(189)) { // minus
-    camera.setZoom(camera.getZoom() * 1.1);
-    cameraAltered = true;
-  }
-  if (keyInteractivity.isDown(187)) { // plus
-    camera.setZoom(camera.getZoom() / 1.1);
-    cameraAltered = true;
+    if (keyInteractivity.isDown(189)) { // minus
+      camera.setZoom(camera.getZoom() * 1.1);
+      cameraAltered = true;
+    }
+    if (keyInteractivity.isDown(187)) { // plus
+      camera.setZoom(camera.getZoom() / 1.1);
+      cameraAltered = true;
+    }
   }
 
   let viewRect = renderer.getGridViewRect(camera);
@@ -503,4 +445,17 @@ loop(() => {
 }, 0);
 
 // */
+};
+
+
+window.onload = function() {
+  const tryLoad = function() {
+    const canvas = <HTMLCanvasElement>document.getElementById('canvas');
+    if (canvas) {
+      onload(canvas);
+    } else {
+      setTimeout(tryLoad, 500);
+    }
+  }
+  tryLoad();
 };
