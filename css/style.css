@@ -27,13 +27,13 @@
     to   { opacity: 1; }
 }
 
-/*.fadein {*/
-/*    -webkit-animation: fadein 0.7s ease-in;*/ /* Safari, Chrome and Opera > 12.1 */
-/*       -moz-animation: fadein 0.7s ease-in;*/ /* Firefox < 16 */
-/*        -ms-animation: fadein 0.7s ease-in;*/ /* Internet Explorer */
-/*         -o-animation: fadein 0.7s ease-in;*/ /* Opera < 12.1 */
-/*            animation: fadein 0.7s ease-in;*/
-/*}*/
+.fadein {
+    -webkit-animation: fadein 0.7s ease-in; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 0.7s ease-in; /* Firefox < 16 */
+        -ms-animation: fadein 0.7s ease-in; /* Internet Explorer */
+         -o-animation: fadein 0.7s ease-in; /* Opera < 12.1 */
+            animation: fadein 0.7s ease-in;
+}
 
 body {
     margin-left: 32px;

@@ -26,6 +26,9 @@ cp ./src/dist/js/app.* ./js/
 cp ./src/dist/js/chunk-vendors.* ./js/
 
 echo 'Copying HTML'
-cp ./src/dist/index.HTML .
+cp ./src/dist/index.html .
+
+echo 'Adding files to git'
+git add ./css/* ./js/* ./index.html
 
 echo 'Done'
