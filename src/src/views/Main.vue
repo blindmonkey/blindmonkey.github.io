@@ -32,6 +32,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import Header from '@/components/Header.vue';
 import Navigation from '@/components/Navigation.vue';
 import { Route } from 'vue-router';
+import { ga } from '@/helpers/ga';
 
 Component.registerHooks([
   // 'beforeRouteEnter',
@@ -48,6 +49,7 @@ Component.registerHooks([
 export default class Main extends Vue {
   public transitionName = 'slide-left';
   public beforeRouteUpdate(to: Route, from: Route, next: () => void) {
+    ga('send', 'pageview', to.path);
     const routeUrls = Navigation.Routes.map((r) => r.url);
     const fromPathIndex = routeUrls.indexOf(from.path);
     const toPathIndex = routeUrls.indexOf(to.path);
