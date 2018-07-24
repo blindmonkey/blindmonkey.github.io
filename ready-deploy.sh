@@ -16,6 +16,7 @@ echo 'Deleting old CSS'
 rm ./css/app.*.css
 echo 'Copying new CSS'
 cp ./src/dist/css/app.*.css ./css/
+cp ./src/dist/css/style.css ./css/
 
 echo 'Deleting old JS'
 rm ./js/app.*
